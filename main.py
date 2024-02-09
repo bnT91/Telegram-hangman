@@ -104,7 +104,8 @@ def handle_msg(msg):
             if lives == 0:
                 started = False
                 bot.send_message(msg.chat.id, "К сожалению, "
-                                              "игра окончена, ведь у тебя не осталось жизней. Удачи в следующий раз!")
+                                              "игра окончена, ведь у тебя не осталось жизней. Удачи в следующий раз! Я загадал слово <b>{word}</b>.",
+                                 parse_mode="html")
 
 
 bot.polling(non_stop=True)
