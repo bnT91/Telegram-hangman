@@ -34,13 +34,24 @@ def start(msg):
     bot.send_message(msg.chat.id, "Попробуй отгадать букву (в любой момент игры ты можешь ввести целое слово, если ты уверен в ответе)")
 
 
+@bot.message_handler(commands=["stop"])
+def stop(msg):
+    global started
+    bot.send_message(msg.chat.id, "Игра остановлена")
+    started = False
+
+
 @bot.message_handler(content_types=["text"])
 def handle_msg(msg):
     global clues, guessed, started, lives
     if not started:
         bot.send_message(msg.chat.id, "Для начала игры введи /start.")
+        return
     if len(msg.text) == 1:
-        guessed.append(msg.text)
+        if msg.text.lower() in guessed:
+            msg.send_message("Ты уже отправлял эту букву, попробуй ввести другую. ")
+            return
+        guessed.append(msg.text.lower())
         if msg.text.lower() in word:
             for ltr in range(len(word)):
                 if word[ltr] == msg.text.lower():
